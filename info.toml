@@ -91,13 +91,17 @@ You can read about the constants here: https://book.cairo-lang.org/ch02-01-varia
 name = "primitive_types1"
 path = "exercises/primitive_types/primitive_types1.cairo"
 mode = "build"
-hint = "No hints this time ;)"
+hint = """
+No hints this time ;)
+"""
 
 [[exercises]]
 name = "primitive_types2"
 path = "exercises/primitive_types/primitive_types2.cairo"
 mode = "build"
-hint = "No hints this time ;)"
+hint = """
+No hints this time ;)
+"""
 
 [[exercises]]
 name = "primitive_types3"
