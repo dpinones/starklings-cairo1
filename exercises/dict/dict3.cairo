@@ -5,11 +5,8 @@
 // the number of player.
 // Using the methods set and get from the Felt252DictTrait, implement the required functions to interact with the team
 // Make me compile and pass the test!
-// Execute `starklings hint dict3` or use the `hint` watch subcommand for a hint.
-
 
 // I AM NOT DONE
-
 
 #[derive(Destruct)]
 struct Team {

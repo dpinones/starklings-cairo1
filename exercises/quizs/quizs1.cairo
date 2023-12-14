@@ -1,3 +1,4 @@
+// quizs1.cairo
 // Mary is buying apples. The price of an apple is calculated as follows:
 // - An apple costs 3 cairobucks.
 // - If Mary buys more than 40 apples, each apple only costs 2 cairobuck!

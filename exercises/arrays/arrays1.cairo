@@ -2,7 +2,6 @@
 // Your task is to create an `Array` which holds three elements of type `felt252`.
 // The first element shoud be 0.
 // Make me compile and pass the test!
-// Execute `starklings hint arrays1` or use the `hint` watch subcommand for a hint.
 
 // I AM NOT DONE
 
