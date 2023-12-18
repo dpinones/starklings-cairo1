@@ -23,7 +23,7 @@ name = "variables1"
 path = "exercises/variables/variables1.cairo"
 mode = "build"
 hint = """
-The declaration on line 9 is missing a keyword that is needed in Cairo
+The declaration on line 5 is missing a keyword that is needed in Cairo
 to create a new variable binding."""
 
 [[exercises]]
@@ -31,7 +31,7 @@ name = "variables2"
 path = "exercises/variables/variables2.cairo"
 mode = "build"
 hint = """
-What happens if you annotate line 8 with a type annotation?
+What happens if you annotate line 4 with a type annotation?
 What if you give x a value?
 What if you do both?
 What type should x be, anyway? (remember what the basic type in Cairo is?)
@@ -43,7 +43,7 @@ path = "exercises/variables/variables3.cairo"
 mode = "build"
 hint = """
 Oops! In this exercise, we have a variable binding that we've created on
-line 8, and we're trying to use it on line 9, but we haven't given it a
+line 4, and we're trying to use it on line 5, but we haven't given it a
 value. We can't print out something that isn't there; try giving x a value!
 This is an error that can cause bugs that's very easy to make in any
 programming language -- thankfully the Cairo compiler has caught this for us!"""
@@ -203,7 +203,7 @@ name = "functions4"
 path = "exercises/functions/functions4.cairo"
 mode = "build"
 hint = """
-The error message points to line 17 and says it expects a type after the
+The error message points to line 8 and says it expects a type after the
 `->`. This is where the function's return type should be -- take a look at
 the `is_even` function for an example!
 """
@@ -391,8 +391,8 @@ name = "move_semantics1"
 path = "exercises/move_semantics/move_semantics1.cairo"
 mode = "build"
 hint = """
-So you've got the "ref argument must be a mutable variable." error on line 20,
-right? The fix for this is going to be adding one keyword, and the addition is NOT on line 20
+So you've got the "ref argument must be a mutable variable." error on line 16,
+right? The fix for this is going to be adding one keyword, and the addition is NOT on line 16
 where the error is.
 
 Also: Try accessing `arr0` after having called `fill_arr()`. See what happens!
