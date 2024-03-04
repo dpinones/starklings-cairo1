@@ -1,14 +1,19 @@
-use std::{env::current_dir, fs, path::PathBuf};
-
 use anyhow::Context;
+use cairo_lang_runner::{RunResultValue, SierraCasmRunner, StarknetState};
+use cairo_lang_sierra::program::VersionedProgram;
 use cairo_lang_test_plugin::TestCompilation;
 use cairo_lang_test_runner::{CompiledTestRunner, TestRunConfig};
 use camino::Utf8PathBuf;
+use console::style;
+use std::{env::current_dir, fs, path::PathBuf};
 
+use itertools::Itertools;
 use scarb::{
     core::{Config, TargetKind},
     ops::{self, collect_metadata, CompileOpts, MetadataOptions},
 };
+
+const AVAILABLE_GAS: usize = 999999999;
 
 // Prepares testing crate
 // Copies the exercise file into testing crate
@@ -37,6 +42,98 @@ pub fn scarb_build(file_path: &PathBuf) -> anyhow::Result<String> {
         Ok(_) => Ok("".into()),
         Err(_) => anyhow::bail!("Couldn't build the exercise..."),
     }
+}
+
+// Runs the crate with scarb
+pub fn scarb_run(file_path: &PathBuf) -> anyhow::Result<String> {
+    let crate_path = prepare_crate_for_exercise(file_path);
+    let config = scarb_config(crate_path);
+
+    let ws = ops::read_workspace(config.manifest_path(), &config)?;
+
+    // Compile before running tests, with test targets true
+    compile(&config, false)?;
+
+    println!(
+        "   {} {}\n",
+        style("Running").green().bold(),
+        file_path.to_str().unwrap()
+    );
+
+    let metadata = collect_metadata(
+        &MetadataOptions {
+            version: 1,
+            no_deps: false,
+        },
+        &ws,
+    )?;
+
+    let profile = "dev";
+    let default_target_dir = metadata.runtime_manifest.join("target");
+
+    let target_dir = metadata
+        .target_dir
+        .clone()
+        .unwrap_or(default_target_dir)
+        .join(profile);
+
+    // Process 'exercise_crate' targets
+    // Largely same as this
+    // https://github.com/software-mansion/scarb/blob/v2.5.3/extensions/scarb-cairo-run/src/main.rs#L61
+    for package in metadata.packages.iter() {
+        if package.name != "exercise_crate" {
+            continue;
+        }
+        // Loop through targets and run compiled file tests
+        for target in package.targets.iter() {
+            // Skip test targets
+            if target.kind == "test" {
+                continue;
+            }
+
+            let file_path = target_dir.join(format!("{}.sierra.json", target.name.clone()));
+
+            assert!(
+                file_path.exists(),
+                "File {file_path} missing, please compile the project."
+            );
+
+            let sierra_program = serde_json::from_str::<VersionedProgram>(
+                &fs::read_to_string(file_path.clone())
+                    .with_context(|| format!("failed to read Sierra file: {file_path}"))?,
+            )
+            .with_context(|| format!("failed to deserialize Sierra program: {file_path}"))?
+            .into_v1()
+            .with_context(|| format!("failed to load Sierra program: {file_path}"))?;
+
+            let runner = SierraCasmRunner::new(
+                sierra_program.program,
+                Some(Default::default()),
+                Default::default(),
+                false,
+            )?;
+
+            let result = runner
+                .run_function_with_starknet_context(
+                    runner.find_function("::main")?,
+                    &[],
+                    Some(AVAILABLE_GAS),
+                    StarknetState::default(),
+                )
+                .context("failed to run the function")?;
+
+            return match result.value {
+                RunResultValue::Success(return_val) => {
+                    Ok(return_val.iter().map(|el| el.to_string()).join(","))
+                }
+                RunResultValue::Panic(error) => {
+                    anyhow::bail!(format!("error running the code, {:?}", error))
+                }
+            };
+        }
+    }
+
+    Ok("".into())
 }
 
 // Runs tests on the testing crate with scarb
@@ -69,7 +166,7 @@ pub fn scarb_test(file_path: &PathBuf) -> anyhow::Result<String> {
 
     // Loop through packages, but only process 'exercise_crate'
     // Largely same as this
-    // https://github.com/software-mansion/scarb/blob/ff98a787cfc0d94adcc7394fa83348bc01f437d5/extensions/scarb-cairo-test/src/main.rs#L54
+    // https://github.com/software-mansion/scarb/blob/v2.5.3/extensions/scarb-cairo-test/src/main.rs#L54
     for package in metadata.packages.iter() {
         if package.name != "exercise_crate" {
             continue;
@@ -90,6 +187,7 @@ pub fn scarb_test(file_path: &PathBuf) -> anyhow::Result<String> {
                 filter: "".into(),
                 include_ignored: false,
                 ignored: false,
+                run_profiler: false,
             };
             let runner = CompiledTestRunner::new(test_compilation, config);
             runner.run()?;

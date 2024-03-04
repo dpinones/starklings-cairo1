@@ -6,8 +6,8 @@
 <img src="https://img.shields.io/badge/Discord-6666ff?logo=discord&logoColor=fff" />
 </a>
 
-<a href="https://twitter.com/intent/follow?screen_name=onlydust_xyz">
-<img src="https://img.shields.io/twitter/follow/onlydust_xyz?label=Follow&style=social" />
+<a href="https://twitter.com/intent/follow?screen_name=onlydust_com">
+<img src="https://img.shields.io/twitter/follow/onlydust_com?label=Follow&style=social" />
 </a>
 
 <a href="https://t.me/+wu8frxmrbeliZWI1">
@@ -39,7 +39,7 @@ For example, to start at `starknet1`,
 cargo run -r --bin starklings watch starknet1
 ```
 
-## Welcome message and instrucitons
+## Welcome message and instructions
 
 ```
 starklings - An interactive tutorial to get started with Cairo and Starknet
@@ -105,17 +105,31 @@ Thanks for your interest in the project. You can fork the repo, create a branch 
 
 ### Adding new exercises
 
-1. New exercises can be added in `./exercises` directory.
+#### Here's what an exercise looks like,
+1. An exercise is pretty much a single well commented Cairo file.
+2. Exercises are organised into modules and are placed in `./exercises/<module_name>/<exercise_name>.cairo`
+3. Exercise accompanies some metadata describing it in `./info.toml`
+4. When introducing a concept for the first time, try to start minimally.
+5. Subsequent exercises for the same concept can grow in complexity.
+
+#### Contributing with a new exercise
+1. Add the exercise file in the `./exercises` directory.
 2. Insert information about the exercise in `./info.toml` file. For example
     ```toml
     [[exercises]]
     name = "new_exercise"
     path = "exercises/new_module/new_exercise.cairo"
-    mode = "compile" # or "test"
-    hint = """"""
+    mode = "test"
+    hint = """
+    Try the Harlem shake
+    """
     ```
-3. Check that the [tests](#testing) pass.
-4. Send your PR!
+3. Run your exercise with `starklings run` as you write
+```
+cargo run -r --bin starklings run new_exercise
+```
+4. Check that the [tests](#testing) pass.
+5. Send your PR!
 
 ### Updating Rust logic/Cairo version
 
