@@ -1,5 +1,5 @@
 // move_semantics2.cairo
-// Make me compile without changing line 16 or moving line 13!
+// Make me compile without changing line 15 or moving line 12!
 
 use array::ArrayTrait;
 use debug::PrintTrait;
