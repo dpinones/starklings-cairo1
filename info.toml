@@ -238,7 +238,7 @@ You can return values from loops by adding the value you want returned after the
 name = "enums1"
 path = "exercises/enums/enums1.cairo"
 mode = "build"
-hint = "https://book.cairo-lang.org/ch06-01-enums.html"
+hint = """https://book.cairo-lang.org/ch06-01-enums.html"""
 
 [[exercises]]
 name = "enums2"
