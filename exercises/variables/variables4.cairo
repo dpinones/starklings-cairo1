@@ -2,11 +2,9 @@
 
 // I AM NOT DONE
 
-use debug::PrintTrait;
-
 fn main() {
     let x = 3;
-    x.print();
+    println!("x is {}", x);
     x = 5; // don't change this line
-    x.print();
+    println!("x is {}", x);
 }

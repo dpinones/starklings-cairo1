@@ -8,5 +8,5 @@ fn main() {
 }
 
 fn call_me(num:) {
-    num.print();
+    println!("num is {}", num);
 }
