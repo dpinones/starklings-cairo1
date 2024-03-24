@@ -10,8 +10,8 @@
 
 #[derive(Destruct)]
 struct Team {
-  level: Felt252Dict<usize>,
-  players_count: usize 
+    level: Felt252Dict<usize>,
+    players_count: usize
 }
 
 #[generate_trait]
@@ -38,11 +38,9 @@ impl TeamImpl of TeamTrait {
 }
 
 
-
 #[test]
 #[available_gas(200000)]
 fn test_add_player() {
-
     let mut team = TeamTrait::new();
     team.add_player('bob', 10);
     team.add_player('alice', 20);
@@ -55,9 +53,8 @@ fn test_add_player() {
 #[test]
 #[available_gas(200000)]
 fn test_level_up() {
-
     let mut team = TeamTrait::new();
-    team.add_player('bobby',10);
+    team.add_player('bobby', 10);
     team.level_up('bobby');
 
     assert(team.level.get('bobby') == 11, 'Wrong level');

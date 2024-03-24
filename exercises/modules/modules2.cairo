@@ -1,7 +1,6 @@
 // I AM NOT DONE
 // These modules have some issues, can you fix?
 
-use debug::PrintTrait;
 const YEAR: u16 = 2050;
 
 mod order {
