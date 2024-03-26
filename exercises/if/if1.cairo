@@ -1,12 +1,15 @@
 // if1.cairo
 // Execute `starklings hint if1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
-
 fn bigger(a: usize, b: usize) -> usize { // Complete this function to return the bigger number!
 // Do not use:
 // - another function call
 // - additional variables
+    if a > b {
+        a
+    } else {
+        b
+    }
 }
 
 // Don't mind this for now :)
@@ -21,6 +24,16 @@ mod tests {
 
     #[test]
     fn fortytwo_is_bigger_than_thirtytwo() {
+        assert(42 == bigger(32, 42), '42 bigger than 32');
+    }
+
+    #[test]
+    fn ten_is_bigger_than_eight_2() {
+        assert(10 == bigger(10, 8), '10 bigger than 8');
+    }
+
+    #[test]
+    fn fortytwo_is_bigger_than_thirtytwo_2() {
         assert(42 == bigger(32, 42), '42 bigger than 32');
     }
 }

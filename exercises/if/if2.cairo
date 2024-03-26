@@ -4,8 +4,6 @@
 // Step 2: Get the bar_for_fuzz and default_to_baz tests passing!
 // Execute `starklings hint if2` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
-
 fn foo_if_fizz(fizzish: felt252) -> felt252 {
     // Complete this function using if, else if and/or else blocks.
     // If fizzish is,
@@ -14,8 +12,10 @@ fn foo_if_fizz(fizzish: felt252) -> felt252 {
     // anything else, return 'baz'
     if fizzish == 'fizz' {
         'foo'
+    } else if fizzish == 'fuzz' {
+        'bar'
     } else {
-        1_u32
+        'baz'
     }
 }
 
@@ -36,6 +36,21 @@ mod tests {
 
     #[test]
     fn default_to_baz() {
+        assert(foo_if_fizz('literally anything') == 'baz', 'anything else returns baz');
+    }
+
+    #[test]
+    fn foo_for_fizz_2() {
+        assert(foo_if_fizz('fizz') == 'foo', 'fizz returns foo')
+    }
+
+    #[test]
+    fn bar_for_fuzz_2() {
+        assert(foo_if_fizz('fuzz') == 'bar', 'fuzz returns bar');
+    }
+
+    #[test]
+    fn default_to_baz_2() {
         assert(foo_if_fizz('literally anything') == 'baz', 'anything else returns baz');
     }
 }

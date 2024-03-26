@@ -4,14 +4,14 @@
 // Make me compile and pass the test!
 // Execute `starklings hint arrays1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
-
 use array::ArrayTrait;
 use option::OptionTrait;
 
 fn create_array() -> Array<felt252> {
-    let a = ArrayTrait::new(); // something to change here...
+    let mut a = ArrayTrait::new(); // something to change here...
+    a.append(0);
     a.append(1);
+    a.append(2);
     a
 }
 
@@ -24,3 +24,9 @@ fn test_array_len() {
     assert(a.pop_front().unwrap() == 0, 'First element is not 0');
 }
 
+#[test]
+fn test_array_len_2() {
+    let mut a = create_array();
+    assert(a.len() == 3, 'Array length is not 3');
+    assert(a.pop_front().unwrap() == 0, 'First element is not 0');
+}

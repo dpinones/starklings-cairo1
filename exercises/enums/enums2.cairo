@@ -1,7 +1,6 @@
 // enums2.cairo
 // Execute `starklings hint enums2` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 use debug::PrintTrait;
 use array::ArrayTrait;
@@ -9,6 +8,10 @@ use traits::Into;
 
 #[derive(Copy, Drop)]
 enum Message { // TODO: define the different variants used below
+    Quit,
+    Echo : felt252,
+    Move :(u8,u8),
+    ChangeColor: (u8,u8,u8)
 }
 
 
@@ -19,7 +22,15 @@ fn main() {
     messages.append(Message::Move((10, 30)));
     messages.append(Message::ChangeColor((0, 255, 255)));
 
-    print_messages_recursive(messages, 0)
+    print_messages_recursive(messages, 0);
+
+    let mut messages: Array<Message> = ArrayTrait::new();
+    messages.append(Message::Quit);
+    messages.append(Message::Echo('hello world'));
+    messages.append(Message::Move((10, 30)));
+    messages.append(Message::ChangeColor((0, 255, 255)));
+
+    print_messages_recursive(messages, 0);
 }
 
 // Utility function to print messages. Don't modify these.

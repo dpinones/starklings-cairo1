@@ -7,14 +7,14 @@
 // in the signatures for now. If anything, this is a good way to peek ahead
 // to future exercises!)
 
-// I AM NOT DONE
-
 fn main() {
     let original_price = 51;
     println!("sale_price is {}", sale_price(original_price));
+
+    assert(sale_price(original_price) == 48, 'error functions4');
 }
 
-fn sale_price(price: u32) -> {
+fn sale_price(price: u32) -> u32{
     if is_even(price) {
         price - 10
     } else {
