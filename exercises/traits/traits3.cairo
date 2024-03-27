@@ -1,14 +1,3 @@
-// traits3.cairo
-//
-// The previous exercise showed how to implement a trait for multiple types.
-// This exercise shows how you can implement multiple traits for a single type.
-// This is useful when you have types that share some common functionality, but
-// also have some unique functionality.
-
-// Execute `starklings hint traits3` or use the `hint` watch subcommand for a hint.
-
-// I AM NOT DONE
-
 #[derive(Copy, Drop)]
 struct Fish {
     noise: felt252,
@@ -60,8 +49,18 @@ impl AnimalDogImpl of AnimalTrait<Dog> {
 }
 
 // TODO: implement FishTrait for the type Fish
+impl FishImpl of FishTrait {
+    fn swim(ref self: Fish) {
+        self.distance += 1;
+    }
+}
 
 // TODO: implement DogTrait for the type Dog
+impl DogImpl of DogTrait {
+    fn walk(ref self: Dog) {
+        self.distance += 1;
+    }
+}
 
 #[test]
 fn test_traits3() {
@@ -76,3 +75,4 @@ fn test_traits3() {
     assert(dog.make_noise() == 'woof', 'Wrong noise');
     assert(dog.get_distance() == 1, 'Wrong distance');
 }
+
